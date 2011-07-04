@@ -1,0 +1,125 @@
+<testng-results>
+  <reporter-output>
+  </reporter-output>
+  <suite name="Maven Tests">
+    <groups>
+      <group name="functest">
+        <method signature="se.codemate.neo4j.NeoGroovyTest.testGroovy(java.lang.String)" name="testGroovy" class="se.codemate.neo4j.NeoGroovyTest"/>
+        <method signature="se.codemate.neo4j.NeoTest.testSearch()" name="testSearch" class="se.codemate.neo4j.NeoTest"/>
+        <method signature="se.codemate.neo4j.NeoSearchTest.testSearch()" name="testSearch" class="se.codemate.neo4j.NeoSearchTest"/>
+        <method signature="se.codemate.neo4j.NeoTest.testDelete()" name="testDelete" class="se.codemate.neo4j.NeoTest"/>
+      </group>
+    </groups>
+    <test name="Functional and Check-in Tests">
+      <class name="se.codemate.neo4j.NeoGroovyTest">
+        <test-method status="PASS" signature="tearDown()" name="tearDown" is-config="true" duration-ms="20" started-at="2011-01-04T13:12:47Z" finished-at="2011-01-04T13:12:47Z">
+        </test-method>
+        <test-method status="FAIL" signature="testGroovy(java.lang.String)" name="testGroovy" duration-ms="1133" started-at="2011-01-04T13:12:46Z" finished-at="2011-01-04T13:12:47Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[src/test/data/test.groovy]]>
+              </value>
+            </param>
+          </params>
+          <exception class="org.neo4j.graphdb.NotFoundException">
+            <message>
+              <![CDATA[Node[97]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[org.neo4j.graphdb.NotFoundException: Node[97]
+	at org.neo4j.kernel.impl.core.NodeManager.getNodeById(NodeManager.java:393)
+	at org.neo4j.kernel.EmbeddedGraphDbImpl.getNodeById(EmbeddedGraphDbImpl.java:223)
+	at org.neo4j.kernel.EmbeddedGraphDatabase.getNodeById(EmbeddedGraphDatabase.java:103)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite$PojoCachedMethodSiteNoUnwrap.invoke(PojoMetaMethodSite.java:209)
+	at org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite.call(PojoMetaMethodSite.java:52)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:43)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:117)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at test.run(test.groovy:4)
+	at groovy.lang.GroovyShell.evaluate(GroovyShell.java:491)
+	at groovy.lang.GroovyShell.evaluate(GroovyShell.java:526)
+	at se.codemate.neo4j.NeoGroovy.evaluate(NeoGroovy.java:62)
+	at se.codemate.neo4j.NeoGroovyTest.testGroovy(NeoGroovyTest.java:53)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.testng.internal.MethodHelper.invokeMethod(MethodHelper.java:580)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:478)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:617)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:885)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:126)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:110)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:712)
+	at org.testng.TestRunner.privateRun(TestRunner.java:582)
+	at org.testng.TestRunner.run(TestRunner.java:477)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:324)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:319)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:292)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:198)
+	at org.testng.TestNG.createAndRunSuiteRunners(TestNG.java:821)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:788)
+	at org.testng.TestNG.run(TestNG.java:708)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:74)
+	at org.apache.maven.surefire.testng.TestNGXmlTestSuite.execute(TestNGXmlTestSuite.java:92)
+	at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:345)
+	at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:1009)
+]]>
+            </full-stacktrace>
+          </exception>
+        </test-method>
+        <test-method status="PASS" signature="setUp(java.lang.String)" name="setUp" is-config="true" duration-ms="593" started-at="2011-01-04T13:12:45Z" finished-at="2011-01-04T13:12:46Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[/opt/neo4j-data/fairview]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+      </class>
+      <class name="se.codemate.neo4j.NeoTest">
+        <test-method status="PASS" signature="testDelete()" name="testDelete" duration-ms="577" started-at="2011-01-04T13:12:48Z" finished-at="2011-01-04T13:12:48Z">
+        </test-method>
+        <test-method status="PASS" signature="testSearch()" name="testSearch" duration-ms="57" started-at="2011-01-04T13:12:48Z" finished-at="2011-01-04T13:12:48Z">
+        </test-method>
+        <test-method status="PASS" signature="setUp(java.lang.String)" name="setUp" is-config="true" duration-ms="692" started-at="2011-01-04T13:12:47Z" finished-at="2011-01-04T13:12:48Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[src/test/data/neo4j.xml]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="tearDown()" name="tearDown" is-config="true" duration-ms="16" started-at="2011-01-04T13:12:48Z" finished-at="2011-01-04T13:12:48Z">
+        </test-method>
+      </class>
+      <class name="se.codemate.neo4j.NeoSearchTest">
+        <test-method status="PASS" signature="setUp(java.lang.String)" name="setUp" is-config="true" duration-ms="13" started-at="2011-01-04T13:12:47Z" finished-at="2011-01-04T13:12:47Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[/opt/neo4j-data/fairview]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="testSearch()" name="testSearch" duration-ms="127" started-at="2011-01-04T13:12:47Z" finished-at="2011-01-04T13:12:47Z">
+        </test-method>
+        <test-method status="PASS" signature="tearDown()" name="tearDown" is-config="true" duration-ms="15" started-at="2011-01-04T13:12:47Z" finished-at="2011-01-04T13:12:47Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

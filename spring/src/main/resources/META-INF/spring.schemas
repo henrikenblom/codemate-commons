@@ -1,0 +1,2 @@
+http\://www.codemate.se/schema/integration/xmpp/xmpp-integration-1.0.xsd=se/codemate/spring/integration/adapter/xmpp/config/xmpp-integration-1.0.xsd
+http\://www.codemate.se/schema/integration/cometd/cometd-integration-1.0.xsd=se/codemate/spring/integration/adapter/cometd/config/cometd-integration-1.0.xsd

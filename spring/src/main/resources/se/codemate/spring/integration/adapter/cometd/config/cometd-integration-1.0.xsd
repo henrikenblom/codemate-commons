@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.codemate.se/schema/integration/cometd"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:integration="http://www.springframework.org/schema/integration"
+            targetNamespace="http://www.codemate.se/schema/integration/cometd"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/integration"
+                schemaLocation="http://www.springframework.org/schema/integration/spring-integration-1.0.xsd"/>
+
+    <xsd:annotation>
+        <xsd:documentation>
+            <![CDATA[Defines the configuration elements for Codemate Cometd Integration.]]>
+        </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:element name="sending-message-handler">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>
+                    <![CDATA[Defines an cometd-sending message handler.]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexContent>
+                <xsd:extension base="cometd-adapter"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="outbound-channel-adapter">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>
+                    <![CDATA[Defines an outbound cometd-sending channel adapter.]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexContent>
+                <xsd:extension base="cometd-adapter">
+                    <xsd:attribute name="channel" type="xsd:string" use="required"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="message-driven-channel-adapter">
+        <xsd:complexType>
+            <xsd:annotation>
+                <xsd:documentation>
+                    <![CDATA[Defines a message driven inbound channel adapter.]]>
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexContent>
+                <xsd:extension base="cometd-adapter">
+                    <xsd:attribute name="channel" type="xsd:string" use="required"/>
+                    <xsd:attribute name="timeout" type="xsd:long" use="optional"/>
+                    <xsd:attribute name="auto-startup" type="xsd:boolean" default="true"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="cometd-adapter">
+        <xsd:annotation>
+            <xsd:documentation>
+                <![CDATA[Defines common configuration for cometd adapters.]]>
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="id" type="xsd:string"/>
+        <xsd:attribute name="cometd-channel" type="xsd:string" use="required"/>
+        <xsd:attribute name="bayeux" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:integration="http://www.springframework.org/schema/integration"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xmpp-integration="http://www.codemate.se/schema/integration/xmpp"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        http://www.springframework.org/schema/integration
+        http://www.springframework.org/schema/integration/spring-integration-1.0.xsd
+        http://www.codemate.se/schema/integration/xmpp
+        http://www.codemate.se/schema/integration/xmpp/xmpp-integration-1.0.xsd">
+
+    <context:component-scan base-package="se.codemate.spring.integration.adapter.xmpp"/>
+
+    <integration:annotation-config/>
+
+    <integration:channel id="xmppInputChannel"/>
+    <integration:channel id="xmppOutputChannel"/>
+
+    <!--
+    <xmpp-integration:inbound-channel-adapter server="dev.codemate.se" username="test" password="VeuM7sDrBC7pxz"
+                                              resource="testng" channel="xmppInputChannel">
+        <integration:poller>
+            <integration:interval-trigger interval="1000"/>
+        </integration:poller>
+    </xmpp-integration:inbound-channel-adapter>
+    -->
+
+    <xmpp-integration:message-driven-channel-adapter server="dev.codemate.se" username="test" password="VeuM7sDrBC7pxz"
+                                                     resource="testng" channel="xmppInputChannel"/>
+
+    <xmpp-integration:outbound-channel-adapter server="dev.codemate.se" username="test" password="VeuM7sDrBC7pxz"
+                                               resource="testng" channel="xmppOutputChannel"/>
+
+</beans>

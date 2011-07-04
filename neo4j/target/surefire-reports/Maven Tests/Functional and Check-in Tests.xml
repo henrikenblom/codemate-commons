@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Functional and Check-in Tests" failures="1" tests="4" time="3.262" errors="0">
+  <properties/>
+  <testcase name="testGroovy" time="1.133" classname="se.codemate.neo4j.NeoGroovyTest">
+    <failure type="org.neo4j.graphdb.NotFoundException" message="Node[97]">
+      <![CDATA[org.neo4j.graphdb.NotFoundException: Node[97]
+	at org.neo4j.kernel.impl.core.NodeManager.getNodeById(NodeManager.java:393)
+	at org.neo4j.kernel.EmbeddedGraphDbImpl.getNodeById(EmbeddedGraphDbImpl.java:223)
+	at org.neo4j.kernel.EmbeddedGraphDatabase.getNodeById(EmbeddedGraphDatabase.java:103)
+	at org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite$PojoCachedMethodSiteNoUnwrap.invoke(PojoMetaMethodSite.java:209)
+	at org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite.call(PojoMetaMethodSite.java:52)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:43)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:117)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at test.run(test.groovy:4)
+	at groovy.lang.GroovyShell.evaluate(GroovyShell.java:491)
+	at groovy.lang.GroovyShell.evaluate(GroovyShell.java:526)
+	at se.codemate.neo4j.NeoGroovy.evaluate(NeoGroovy.java:62)
+	at se.codemate.neo4j.NeoGroovyTest.testGroovy(NeoGroovyTest.java:53)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:74)
+	at org.apache.maven.surefire.testng.TestNGXmlTestSuite.execute(TestNGXmlTestSuite.java:92)
+	at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+	at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:345)
+	at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:1009)
+... Removed 28 stack frames]]>
+    </failure>
+  </testcase>
+  <testcase name="testSearch" time="0.127" classname="se.codemate.neo4j.NeoSearchTest"/>
+  <testcase name="testSearch" time="0.057" classname="se.codemate.neo4j.NeoTest"/>
+  <testcase name="testDelete" time="0.577" classname="se.codemate.neo4j.NeoTest"/>
+</testsuite>

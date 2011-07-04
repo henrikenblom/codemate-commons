@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Maven Tests" verbose="1" annotations="JDK">
+
+    <parameter name="echo.timeout" value="60000"/>
+
+    <test name="Functional and Check-in Tests">
+
+        <groups>
+            <run>
+                <include name="functest"/>
+                <include name="checkintest"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="se.codemate.spring.aspects.AspectTest"/>
+            <class name="se.codemate.spring.security.NeoUserDetailsServiceTest"/>
+            <!--
+            <class name="com.twittlet.integration.adapter.xmpp.XMPPEchoTest"/>
+            -->
+        </classes>
+
+    </test>
+
+</suite>
