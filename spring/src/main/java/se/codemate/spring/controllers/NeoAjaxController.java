@@ -152,8 +152,11 @@ public class NeoAjaxController {
 
     @RequestMapping(value = {"/neo/ajax/update_node.do"})
     public ModelAndView updateNode(HttpServletRequest request,
-                                   @RequestParam("_nodeId") Long nodeId,
+                                   @RequestParam(value = "_nodeId", required = false) Long nodeId,
                                    @RequestParam(value = "_strict", required = false) Boolean strict) {
+        if (nodeId == null) {
+            nodeId = neo.createNode().getId();
+        }
         return updatePropertyContainer(request, nodeId, TYPE_NODE, strict);
     }
 
