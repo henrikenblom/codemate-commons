@@ -1,0 +1,2 @@
+http\://www.codemate.se/schema/integration/xmpp=se.codemate.spring.integration.adapter.xmpp.config.XMPPNamespaceHandler
+http\://www.codemate.se/schema/integration/cometd=se.codemate.spring.integration.adapter.cometd.config.CometdNamespaceHandler

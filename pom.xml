@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>se.codemate.commons</groupId>
+    <artifactId>codemate-commons</artifactId>
+    <version>2.1</version>
+    <name>Codemate Commons POM</name>
+    <url>http://www.codemate.se/commons</url>
+    <packaging>pom</packaging>
+
+    <properties>
+        <spring.version>2.5.6</spring.version>
+        <spring-mock.version>2.0.8</spring-mock.version>
+        <spring-security.version>2.0.4</spring-security.version>
+        <spring-integration.version>1.0.1</spring-integration.version>
+        <servlet-api.version>2.5</servlet-api.version>
+        <javax-mail.version>1.4</javax-mail.version>
+        <javax-activation.version>1.1.1</javax-activation.version>
+        <jsr250-api.version>1.0</jsr250-api.version>
+        <aspectj.version>1.6.1</aspectj.version>
+        <javarebel.version>1.2.1</javarebel.version>
+        <javarebel-spring.version>1.0-M2</javarebel-spring.version>
+        <json.version>1.0</json.version>
+        <xstream.version>1.3</xstream.version>
+        <lucene.version>2.4.1</lucene.version>
+        <groovy.version>1.6.2</groovy.version>
+        <neo4j.version>1.1</neo4j.version>
+        <sitemesh.version>2.3</sitemesh.version>
+        <freemarker.version>2.3.14</freemarker.version>
+        <testng.version>5.8</testng.version>
+        <log4j.version>1.2.14</log4j.version>
+        <jetty.version>6.1.14</jetty.version>
+        <smack.version>3.1.0</smack.version>
+        <jettison.version>1.0.1</jettison.version>
+        <bsh.version>2.0b4</bsh.version>
+        <poi.version>3.0.1-FINAL</poi.version>
+        <jasperreports.version>3.5.1</jasperreports.version>
+        <ireport.version>3.5.0</ireport.version>
+        <httpclient.version>4.0-beta2</httpclient.version>
+        <commons-io.version>1.4</commons-io.version>
+        <commons-fileupload.version>1.2</commons-fileupload.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+            <classifier>jdk15</classifier>
+        </dependency>
+    </dependencies>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/data/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <argLine>-javaagent:${settings.localRepository}/org/springframework/spring-agent/${spring.version}/spring-agent-${spring.version}.jar</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>codemate</id>
+            <name>codemate-releases</name>
+            <url>https://mvn.codemate.se:8443/libs-releases-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>codemate</id>
+            <name>codemate-snapshots</name>
+            <url>https://mvn.codemate.se:8443/libs-snapshots-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <modules>
+        <module>neo4j</module>
+        <module>utilities</module>
+        <module>spring</module>
+        <module>reporting</module>
+    </modules>
+
+</project>

@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Maven Tests" verbose="1" annotations="JDK">
+
+    <test name="Functional and Check-in Tests">
+
+        <parameter name="import.source" value="src/test/data/neo4j.xml"/>
+        <parameter name="search.neo" value="/opt/neo4j-data/fairview"/>
+        <parameter name="groovy.file" value="src/test/data/test.groovy"/>
+
+        <groups>
+            <run>
+                <include name="functest"/>
+                <include name="checkintest"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="se.codemate.neo4j.NeoTest"/>
+            <class name="se.codemate.neo4j.NeoSearchTest"/>
+            <class name="se.codemate.neo4j.NeoGroovyTest"/>
+        </classes>
+
+    </test>
+
+</suite>
