@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <neo4j>
     <embeddedNeo>
-        <storeDir>/tmp/neo4j-test</storeDir>
+        <storeDir>/tmp/neo4j-test-small</storeDir>
         <nodes>
             <node>
                 <id>0</id>

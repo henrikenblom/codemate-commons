@@ -3,8 +3,8 @@
 
     <test name="Functional and Check-in Tests">
 
-        <parameter name="import.source" value="src/test/data/neo4j.xml"/>
-        <parameter name="search.neo" value="/opt/neo4j-data/fairview"/>
+        <parameter name="test.data.small" value="src/test/data/test-data-small.xml"/>
+        <parameter name="test.data" value="src/test/data/test-data.xml"/>
         <parameter name="groovy.file" value="src/test/data/test.groovy"/>
 
         <groups>

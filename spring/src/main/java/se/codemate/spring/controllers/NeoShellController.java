@@ -6,7 +6,7 @@ import org.neo4j.shell.Output;
 import org.neo4j.shell.Session;
 import org.neo4j.shell.ShellException;
 import org.neo4j.shell.impl.RemoteOutput;
-import org.neo4j.shell.impl.SameJvmSession;
+import org.neo4j.shell.impl.SameJvmClient;
 import org.neo4j.shell.kernel.GraphDatabaseShellServer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -125,7 +125,8 @@ public class NeoShellController {
         Output output = new PrintWriterOutput(writer);
         Session session = (Session) httpSession.getAttribute("neoSession");
         if (session == null) {
-            session = new SameJvmSession();
+            // Todo: fix this
+            //session = new SameJvmSession();
             httpSession.setAttribute("neoSession", session);
         }
         neoShellServer.interpretLine(line, session, output);

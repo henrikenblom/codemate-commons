@@ -1,5 +1,6 @@
 package se.codemate.neo4j;
 
+import com.thoughtworks.xstream.XStream;
 import org.apache.lucene.queryParser.ParseException;
 import org.neo4j.graphdb.*;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
@@ -9,21 +10,30 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
 public class NeoGroovyTest {
 
+    private XStream xstream;
     private EmbeddedGraphDatabase neo;
     private NeoSearch neoSearch;
     private NeoGroovy neoGroovy;
 
     @BeforeClass(alwaysRun = true)
-    @Parameters({"search.neo"})
+    @Parameters({"test.data.small"})
     public void setUp(String path) throws Exception {
-        neo = new EmbeddedGraphDatabase(path);
+
+        xstream = XStreamHelper.createXStreamInstance();
+
+        ObjectInputStream in = xstream.createObjectInputStream(new FileInputStream(path));
+        neo = (EmbeddedGraphDatabase) in.readObject();
         neoSearch = new NeoSearch(neo);
+        neoSearch.indexGraph();
         neoGroovy = new NeoGroovy(neo, neoSearch);
+
     }
 
     @AfterClass(alwaysRun = true)
@@ -35,12 +45,12 @@ public class NeoGroovyTest {
 
         if (neo != null) {
             neo.shutdown();
+            deleteDir(new File(neo.getConfig().getTxModule().getTxLogDirectory()));
         }
 
         System.out.flush();
 
     }
-
 
     @Test(groups = {"functest"})
     @Parameters({"groovy.file"})
@@ -51,6 +61,7 @@ public class NeoGroovyTest {
         try {
 
             List<PropertyContainer> containers = neoGroovy.evaluate(new File(file));
+            System.out.println("Hits: "+containers.size());
 
             for (PropertyContainer container : containers) {
 
@@ -74,6 +85,15 @@ public class NeoGroovyTest {
 
         Thread.sleep(100);
 
+    }
+
+    private static void deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            for (File file : dir.listFiles()) {
+                deleteDir(file);
+            }
+        }
+        dir.delete();
     }
 
 }
