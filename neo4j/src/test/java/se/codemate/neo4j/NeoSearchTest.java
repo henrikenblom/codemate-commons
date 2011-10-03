@@ -1,5 +1,6 @@
 package se.codemate.neo4j;
 
+import com.thoughtworks.xstream.XStream;
 import org.apache.lucene.queryParser.ParseException;
 import org.neo4j.graphdb.*;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
@@ -8,19 +9,29 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
 public class NeoSearchTest {
 
+    private XStream xstream;
     private EmbeddedGraphDatabase neo;
     private NeoSearch neoSearch;
 
     @BeforeClass(alwaysRun = true)
-    @Parameters({"search.neo"})
+    @Parameters({"test.data.small"})
     public void setUp(String path) throws Exception {
-        neo = new EmbeddedGraphDatabase(path);
+
+        xstream = XStreamHelper.createXStreamInstance();
+
+        ObjectInputStream in = xstream.createObjectInputStream(new FileInputStream(path));
+        neo = (EmbeddedGraphDatabase) in.readObject();
         neoSearch = new NeoSearch(neo);
+        neoSearch.indexGraph();
+
     }
 
     @AfterClass(alwaysRun = true)
@@ -32,6 +43,7 @@ public class NeoSearchTest {
 
         if (neo != null) {
             neo.shutdown();
+            deleteDir(new File(neo.getConfig().getTxModule().getTxLogDirectory()));
         }
 
         System.out.flush();
@@ -46,8 +58,8 @@ public class NeoSearchTest {
 
         try {
 
-            //List<PropertyContainer> containers = neoSearch.getPropertyContainers("name:A* AND nodeClass:organization");
-            List<PropertyContainer> containers = neoSearch.getPropertyContainers("_relType:\"REPORTS_TO\" AND _endNodeID:18");
+            List<PropertyContainer> containers = neoSearch.getPropertyContainers("name:d*B");
+            //List<PropertyContainer> containers = neoSearch.getPropertyContainers("_relType:\"CONNECTED_TO\" AND _endNodeID:11");
 
             for (PropertyContainer container : containers) {
 
@@ -69,6 +81,15 @@ public class NeoSearchTest {
             tx.finish();
         }
 
+    }
+
+    private static void deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            for (File file : dir.listFiles()) {
+                deleteDir(file);
+            }
+        }
+        dir.delete();
     }
 
 }

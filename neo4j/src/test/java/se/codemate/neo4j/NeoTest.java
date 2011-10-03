@@ -11,7 +11,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.*;
-import java.util.List;
+import java.util.*;
 
 public class NeoTest {
 
@@ -20,25 +20,10 @@ public class NeoTest {
     private NeoSearch neoSearch;
 
     @BeforeClass(alwaysRun = true)
-    @Parameters({"import.source"})
+    @Parameters({"test.data.small"})
     public void setUp(String path) throws Exception {
 
-        xstream = new XStream();
-        xstream.setMode(XStream.NO_REFERENCES);
-
-        xstream.alias("embeddedNeo", EmbeddedGraphDatabase.class);
-
-        xstream.alias("node", Node.class);
-        xstream.alias("node", Class.forName("org.neo4j.kernel.impl.core.NodeImpl"));
-        xstream.alias("node", Class.forName("org.neo4j.kernel.impl.core.NodeProxy"));
-
-        xstream.alias("relationship", Relationship.class);
-        xstream.alias("relationship", Class.forName("org.neo4j.kernel.impl.core.RelationshipImpl"));
-        xstream.alias("relationship", Class.forName("org.neo4j.kernel.impl.core.RelationshipProxy"));
-
-        xstream.registerConverter(new XStreamEmbeddedNeoConverter());
-        xstream.registerConverter(new XStreamNodeConverter(xstream.getMapper()));
-        xstream.registerConverter(new XStreamRelationshipConverter(xstream.getMapper()));
+        xstream = XStreamHelper.createXStreamInstance();
 
         ObjectInputStream in = xstream.createObjectInputStream(new FileInputStream(path));
         neo = (EmbeddedGraphDatabase) in.readObject();
@@ -64,6 +49,40 @@ public class NeoTest {
     }
 
     @Test(groups = {"functest"})
+    public void testExport() throws IOException, ParseException {
+
+        Node node = neo.getReferenceNode();
+
+        LinkedList<Node> queue = new LinkedList<Node>();
+        queue.add(node);
+
+        Set<Node> nodes = new HashSet<Node>();
+        Set<Relationship> relationships = new HashSet<Relationship>();
+
+        Transaction tx = neo.beginTx();
+
+        while (!queue.isEmpty()) {
+            Node currentNode = queue.removeFirst();
+            if (nodes.add(currentNode)) {
+                for (Relationship relationship : currentNode.getRelationships(Direction.OUTGOING)) {
+                    if (relationships.add(relationship)) {
+                        queue.add(relationship.getEndNode());
+                    }
+                }
+            }
+        }
+
+        try {
+            xstream.toXML(nodes, System.out);
+            xstream.toXML(relationships, System.out);
+        } finally {
+            tx.success();
+            tx.finish();
+        }
+
+    }
+
+    @Test(groups = {"functest"})
     public void testSearch() throws IOException, ParseException {
         Transaction tx = neo.beginTx();
         try {
@@ -80,6 +99,8 @@ public class NeoTest {
             ObjectOutputStream out = xstream.createObjectOutputStream(System.out, "neo4j");
             out.writeObject(neo);
             out.close();
+
+            System.out.println("");
 
             tx.success();
         } finally {
