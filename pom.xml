@@ -7,7 +7,7 @@
 
     <groupId>se.codemate.commons</groupId>
     <artifactId>codemate-commons</artifactId>
-    <version>2.1</version>
+    <version>2.2</version>
     <name>Codemate Commons POM</name>
     <url>http://www.codemate.se/commons</url>
     <packaging>pom</packaging>
