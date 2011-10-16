@@ -3,7 +3,7 @@ package se.codemate.spring.integration.adapter.cometd;
 import org.cometd.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.integration.endpoint.MessageProducerSupport;
-import org.springframework.integration.message.MessageBuilder;
+import org.springframework.integration.support.MessageBuilder;
 
 public class CometdMessageDrivenEndpoint extends MessageProducerSupport implements MessageListener, MessageListener.Asynchronous {
 
@@ -23,7 +23,7 @@ public class CometdMessageDrivenEndpoint extends MessageProducerSupport implemen
     }
 
     protected void doStart() {
-        client = bayeux.newClient(getBeanName());
+        client = bayeux.newClient(getComponentName());
         bayeux.getChannel(cometdChannelId, true).subscribe(client);
         client.addListener(this);
     }
@@ -34,7 +34,7 @@ public class CometdMessageDrivenEndpoint extends MessageProducerSupport implemen
         if (channel != null) {
             channel.unsubscribe(client);
         }
-        bayeux.removeClient(getBeanName());
+        bayeux.removeClient(getComponentName());
         client = null;
     }
 

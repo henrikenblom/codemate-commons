@@ -18,12 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.view.AbstractTemplateView;
+import org.springframework.web.servlet.view.jasperreports.AbstractJasperReportsView;
 import org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView;
 import org.springframework.web.util.UrlPathHelper;
-import org.springframework.security.context.SecurityContext;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.Authentication;
-import org.springframework.security.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import se.codemate.neo4j.NeoSearch;
 import se.codemate.reporting.jasperreports.JRNeoQueryExecuterFactory;
 
@@ -175,21 +176,19 @@ public class JasperReportController implements Controller, ApplicationContextAwa
 
         model.put("SUBREPORT_DIR", "file://" + reportRoot.getAbsolutePath() + File.separatorChar);
 
-        Properties mappingsWithClassNames = new Properties();
-
-        mappingsWithClassNames.put("html", "se.codemate.spring.mvc.JasperReportsHtmlView");
-        mappingsWithClassNames.put("rtf", "se.codemate.spring.mvc.JasperReportsRtfView");
-        mappingsWithClassNames.put("txt", "se.codemate.spring.mvc.JasperReportsTextView");
-        mappingsWithClassNames.put("xml", "se.codemate.spring.mvc.JasperReportsXmlView");
-        mappingsWithClassNames.put("odt", "se.codemate.spring.mvc.JasperReportsOdtView");
-        mappingsWithClassNames.put("ods", "se.codemate.spring.mvc.JasperReportsOdsView");
-
-        mappingsWithClassNames.put("csv", "org.springframework.web.servlet.view.jasperreports.JasperReportsCsvView");
-        mappingsWithClassNames.put("pdf", "org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView");
-        mappingsWithClassNames.put("xls", "org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView");
+        Map<String, Class<? extends AbstractJasperReportsView>> formatMappings = new HashMap<String, Class<? extends AbstractJasperReportsView>>();
+        formatMappings.put("html",se.codemate.spring.mvc.JasperReportsHtmlView.class);
+        formatMappings.put("rtf",se.codemate.spring.mvc.JasperReportsRtfView.class);
+        formatMappings.put("txt",se.codemate.spring.mvc.JasperReportsTextView.class);
+        formatMappings.put("xml",se.codemate.spring.mvc.JasperReportsXmlView.class);
+        formatMappings.put("odt",se.codemate.spring.mvc.JasperReportsOdtView.class);
+        formatMappings.put("ods",se.codemate.spring.mvc.JasperReportsOdsView.class);
+        formatMappings.put("csv",org.springframework.web.servlet.view.jasperreports.JasperReportsCsvView.class);
+        formatMappings.put("pdf",org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView.class);
+        formatMappings.put("xls",org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView.class);
 
         JasperReportsMultiFormatView view = new JasperReportsMultiFormatView();
-        view.setFormatMappings(mappingsWithClassNames);
+        view.setFormatMappings(formatMappings);
         view.setUrl("file://" + path);
         view.setApplicationContext(applicationContext);
 
@@ -207,7 +206,7 @@ public class JasperReportController implements Controller, ApplicationContextAwa
             view.setExporterParameters(parameters);
         }
 
-        request.setAttribute(AbstractTemplateView.SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE, new RequestContext(request, ((WebApplicationContext) applicationContext).getServletContext(), model));
+        request.setAttribute(AbstractTemplateView.SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE, new RequestContext(request, null, ((WebApplicationContext) applicationContext).getServletContext(), model));
 
         return new ModelAndView(view, model);
 

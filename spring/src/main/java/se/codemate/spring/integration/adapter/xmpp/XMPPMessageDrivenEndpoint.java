@@ -7,10 +7,10 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.integration.channel.MessageChannelTemplate;
-import org.springframework.integration.core.MessageChannel;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.integration.endpoint.AbstractEndpoint;
-import org.springframework.integration.message.MessageBuilder;
+import org.springframework.integration.support.MessageBuilder;
 
 public class XMPPMessageDrivenEndpoint extends AbstractEndpoint implements DisposableBean, PacketListener {
 
@@ -25,7 +25,7 @@ public class XMPPMessageDrivenEndpoint extends AbstractEndpoint implements Dispo
 
     private volatile MessageChannel outputChannel;
 
-    private MessageChannelTemplate channelTemplate = new MessageChannelTemplate();
+    private MessagingTemplate channelTemplate = new MessagingTemplate();
 
     @Required
     public void setServer(String server) {
@@ -90,7 +90,7 @@ public class XMPPMessageDrivenEndpoint extends AbstractEndpoint implements Dispo
             if (packet.getFrom() != null) {
                 messageBuilder.setHeader("from", packet.getFrom());
             }
-            channelTemplate.send(messageBuilder.build(), outputChannel);
+            channelTemplate.send(outputChannel, messageBuilder.build());
         }
     }
 

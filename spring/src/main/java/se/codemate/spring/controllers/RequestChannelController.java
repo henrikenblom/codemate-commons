@@ -1,9 +1,11 @@
 package se.codemate.spring.controllers;
 
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.integration.channel.MessageChannelTemplate;
-import org.springframework.integration.core.MessageChannel;
-import org.springframework.integration.message.MessageBuilder;
+//import org.springframework.integration.channel.MessageChannelTemplate;
+//import org.springframework.integration.core.MessageChannel;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -22,7 +24,7 @@ import java.util.*;
 
 public class RequestChannelController implements Controller, ServletContextAware {
 
-    private MessageChannelTemplate template = new MessageChannelTemplate();
+    private MessagingTemplate template = new MessagingTemplate();
 
     private File tempDir;
 
@@ -85,7 +87,7 @@ public class RequestChannelController implements Controller, ServletContextAware
             messageBuilder.setHeader("request.header." + name, request.getHeader(name));
         }
 
-        template.send(messageBuilder.build(), channel);
+        template.send(channel, messageBuilder.build());
 
         if (view == null) {
             response.setContentType("text/plain; charset=UTF-8");

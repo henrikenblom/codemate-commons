@@ -5,12 +5,12 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.TermQuery;
 import org.neo4j.graphdb.*;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.userdetails.User;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import se.codemate.neo4j.NeoSearch;
 import se.codemate.neo4j.SimpleRelationshipType;
 
@@ -77,7 +77,7 @@ public class NeoUserDetailsService implements UserDetailsService {
                         (Boolean) userNode.getProperty("accountNonExpired", true),
                         (Boolean) userNode.getProperty("credentialsNonExpired", true),
                         (Boolean) userNode.getProperty("accountNonLocked", true),
-                        authorities.toArray(new GrantedAuthority[authorities.size()])
+                        authorities
                 );
 
             } else if (nodes.size() > 1) {

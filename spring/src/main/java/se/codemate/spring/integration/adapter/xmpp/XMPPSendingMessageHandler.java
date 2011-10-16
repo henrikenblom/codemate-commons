@@ -1,7 +1,7 @@
 package se.codemate.spring.integration.adapter.xmpp;
 
-import org.springframework.integration.core.Message;
-import org.springframework.integration.message.MessageHandler;
+import org.springframework.integration.Message;
+import org.springframework.integration.core.MessageHandler;
 
 public class XMPPSendingMessageHandler extends XMPPAdapter implements MessageHandler {
 

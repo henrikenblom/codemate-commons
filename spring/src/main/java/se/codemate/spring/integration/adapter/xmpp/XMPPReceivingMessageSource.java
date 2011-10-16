@@ -3,9 +3,9 @@ package se.codemate.spring.integration.adapter.xmpp;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.Packet;
-import org.springframework.integration.core.Message;
-import org.springframework.integration.message.MessageBuilder;
-import org.springframework.integration.message.MessageSource;
+import org.springframework.integration.Message;
+import org.springframework.integration.core.MessageSource;
+import org.springframework.integration.support.MessageBuilder;
 
 import java.util.LinkedList;
 

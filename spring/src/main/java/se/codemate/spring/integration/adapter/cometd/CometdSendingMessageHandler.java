@@ -7,7 +7,7 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.integration.core.Message;
+import org.springframework.integration.Message;
 import org.springframework.integration.handler.AbstractMessageHandler;
 
 public class CometdSendingMessageHandler extends AbstractMessageHandler implements BeanNameAware, InitializingBean, DisposableBean {
@@ -17,8 +17,6 @@ public class CometdSendingMessageHandler extends AbstractMessageHandler implemen
 
     private Client client;
     private Channel channel;
-
-    private String name;
 
     @Required
     public void setBayeux(Bayeux bayeux) {
@@ -30,16 +28,8 @@ public class CometdSendingMessageHandler extends AbstractMessageHandler implemen
         this.channelId = cometdChannel;
     }
 
-    public void setBeanName(String name) {
-        this.name = name;
-    }
-
-    public String getBeanName() {
-        return name;
-    }
-
-    public void afterPropertiesSet() throws Exception {
-        client = bayeux.newClient(getBeanName());
+    public void onInit() throws Exception {
+        client = bayeux.newClient(getComponentName());
         channel = bayeux.getChannel(channelId, true);
         channel.subscribe(client);
     }
@@ -49,7 +39,7 @@ public class CometdSendingMessageHandler extends AbstractMessageHandler implemen
             channel.unsubscribe(client);
             channel = null;
         }
-        bayeux.removeClient(getBeanName());
+        bayeux.removeClient(getComponentName());
         client = null;
     }
 
