@@ -181,7 +181,6 @@ public class JasperReportController implements Controller, ApplicationContextAwa
         mappingsWithClassNames.put("rtf", "se.codemate.spring.mvc.JasperReportsRtfView");
         mappingsWithClassNames.put("txt", "se.codemate.spring.mvc.JasperReportsTextView");
         mappingsWithClassNames.put("xml", "se.codemate.spring.mvc.JasperReportsXmlView");
-        mappingsWithClassNames.put("xmlss", "se.codemate.spring.mvc.JasperReportsXmlssView");
         mappingsWithClassNames.put("odt", "se.codemate.spring.mvc.JasperReportsOdtView");
         mappingsWithClassNames.put("ods", "se.codemate.spring.mvc.JasperReportsOdsView");
 

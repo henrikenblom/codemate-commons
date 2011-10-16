@@ -49,7 +49,7 @@ public class LocalQueryExecuter extends JRAbstractQueryExecuter {
 
             List<PropertyContainer> propertyContainers = getPropertyContainer(neoSearch, neoGroovy, getQueryString());
 
-            List<Map<String, Object>> maps = new LinkedList<Map<String, Object>>();
+            List<Map<String, ?>> maps = new LinkedList<Map<String, ?>>();
 
             for (PropertyContainer propertyContainer : propertyContainers) {
 

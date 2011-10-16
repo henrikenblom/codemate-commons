@@ -18,20 +18,35 @@ public class RemoteFieldsProvider implements FieldsProvider {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public JRField[] getFields(IReportConnection connection, JRDataset reportDataset, Map paramaters) throws JRException, UnsupportedOperationException {
+    public JRField[] getFields(IReportConnection connection, JRDataset reportDataset, Map parameters) throws JRException, UnsupportedOperationException {
+
+        Object url = parameters.get("NEO_URL");
+        if (url == null) {
+            throw new JRException("NEO_URL parameter is missing");
+        }
+
+        Object username = parameters.get("NEO_USERNAME");
+        if (username == null) {
+            throw new JRException("NEO_USERNAME parameter is missing");
+        }
+
+        Object password = parameters.get("NEO_PASSWORD");
+        if (password == null) {
+            throw new JRException("NEO_PASSWORD parameter is missing");
+        }
 
         RemoteHTTPClient client = new RemoteHTTPClient(
-                paramaters.get("NEO_URL").toString(),
-                paramaters.get("NEO_USERNAME").toString(),
-                paramaters.get("NEO_PASSWORD").toString()
+                url.toString(),
+                username.toString(),
+                password.toString()
         );
 
-        Object proxy = paramaters.get("NEO_PROXY");
+        Object proxy = parameters.get("NEO_PROXY");
         if (proxy != null) {
             client.setProxy(proxy.toString());
         }
 
-        String query = parseQuery(reportDataset.getQuery(), paramaters);
+        String query = parseQuery(reportDataset.getQuery(), parameters);
 
         Map<String, String> map = (Map<String, String>) client.getObject("/neo/xml/report-fields.do", query);
 

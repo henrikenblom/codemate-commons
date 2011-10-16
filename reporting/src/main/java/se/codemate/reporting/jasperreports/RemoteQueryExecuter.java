@@ -38,7 +38,7 @@ public class RemoteQueryExecuter extends JRAbstractQueryExecuter {
 
     @SuppressWarnings(value = "unchecked")
     public JRDataSource createDatasource() throws JRException {
-        List<Map<String, Object>> list = (List<Map<String, Object>>) client.getObject("/neo/xml/report-search.do", getQueryString());
+        List<Map<String, ?>> list = (List<Map<String, ?>>) client.getObject("/neo/xml/report-search.do", getQueryString());
         return new JRMapCollectionDataSource(list);
     }
 

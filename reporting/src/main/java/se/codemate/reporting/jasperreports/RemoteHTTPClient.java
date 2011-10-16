@@ -1,6 +1,7 @@
 package se.codemate.reporting.jasperreports;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 import net.sf.jasperreports.engine.JRException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -17,10 +18,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import se.codemate.neo4j.MapPropertyContainer;
+import se.codemate.reporting.jasperreports.xstream.RemoteMapPropertyContainerConverter;
 import se.codemate.reporting.jasperreports.xstream.RemoteNodeConverter;
 import se.codemate.reporting.jasperreports.xstream.RemoteRelationshipConverter;
-import se.codemate.reporting.jasperreports.xstream.RemoteMapPropertyContainerConverter;
-import se.codemate.neo4j.MapPropertyContainer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,6 +69,10 @@ public class RemoteHTTPClient {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("query", query));
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
+
+            String name = client.getCredentialsProvider().getCredentials(AuthScope.ANY).getUserPrincipal().getName();
+            String password = client.getCredentialsProvider().getCredentials(AuthScope.ANY).getPassword();
+            post.setHeader("Authorization",  "Basic " + new Base64Encoder().encode((name+":"+password).getBytes()));
 
             HttpResponse response = client.execute(post);
             HttpEntity entity = response.getEntity();
