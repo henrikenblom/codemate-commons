@@ -4,8 +4,6 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import org.apache.lucene.queryParser.ParseException;
 import org.neo4j.graphdb.*;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,8 +96,10 @@ public class NeoAjaxController {
             if (!name.startsWith("_")) {
                 String[] fields = name.split(":");
                 String key = fields[0];
-                Object value = NeoUtils.toPrimitive(request.getParameter(name), fields.length > 1 ? fields[1] : null, fields.length > 2 ? fields[2] : null);
-                relationship.setProperty(key, value);
+                if (request.getParameter(name) != null && request.getParameter(name).length() > 0) {
+                    Object value = NeoUtils.toPrimitive(request.getParameter(name), fields.length > 1 ? fields[1] : null, fields.length > 2 ? fields[2] : null);
+                    relationship.setProperty(key, value);
+                }
             }
         }
 
