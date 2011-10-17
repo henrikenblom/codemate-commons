@@ -53,6 +53,13 @@
         <commons-fileupload.version>1.2</commons-fileupload.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>codemate-public</id>
+            <url>http://mvn.codemate.se:8080/repo</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
@@ -84,7 +91,7 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/data/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
-                    <argLine>-javaagent:${settings.localRepository}/org/springframework/spring-agent/${spring.version}/spring-agent-${spring.version}.jar</argLine>
+                    <argLine>-javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar</argLine>
                 </configuration>
             </plugin>
             <plugin>
