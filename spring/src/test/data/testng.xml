@@ -14,10 +14,7 @@
 
         <classes>
             <class name="se.codemate.spring.aspects.AspectTest"/>
-            <class name="se.codemate.spring.security.NeoUserDetailsServiceTest"/>
-            <!--
-            <class name="com.twittlet.integration.adapter.xmpp.XMPPEchoTest"/>
-            -->
+            <!--class name="se.codemate.spring.security.NeoUserDetailsServiceTest"/-->
         </classes>
 
     </test>

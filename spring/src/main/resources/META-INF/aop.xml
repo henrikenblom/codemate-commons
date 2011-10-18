@@ -1,8 +1,11 @@
 <aspectj>
 
-    <weaver options="-verbose">
+    <weaver>
         <include within="se.codemate.spring..*"/>
-        <include within="org.neo4j.graphdb..*"/>
+        <include within="org.neo4j..*"/>
+        <exclude within="org.neo4j.shell.kernel.apps.Dbinfo"/>
+        <exclude within="org.neo4j.shell.apps.extra.PathShellApp"/>
+        <exclude within="org.neo4j.kernel.impl.osgi.OSGiActivator"/>
     </weaver>
 
     <aspects>

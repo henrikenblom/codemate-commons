@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Date;
+import java.util.TreeMap;
 
 public class AspectTest {
 
@@ -48,7 +49,10 @@ public class AspectTest {
         Transaction transaction = neoService.beginTx();
         Node node = neoService.createNode();
         try {
-            node.setProperty("Date", new Date());
+            TreeMap<String,String> treeMap = new TreeMap<String, String>();
+            treeMap.put("b","bb");
+            treeMap.put("a","aa");
+            node.setProperty("Map", treeMap);
             node.setProperty("Long", 435634L);
             node.setProperty("Array", new String[]{"a", "b", "c"});
             node.removeProperty("Array");
