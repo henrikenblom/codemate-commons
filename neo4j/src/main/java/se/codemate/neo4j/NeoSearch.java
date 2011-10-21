@@ -1,5 +1,6 @@
 package se.codemate.neo4j;
 
+import com.sun.corba.se.impl.orbutil.concurrent.Sync;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.PerFieldAnalyzerWrapper;
@@ -47,6 +48,7 @@ public class NeoSearch {
     public static String RELATIONSHIP_START_NODE_LABEL = "_startNodeID";
     public static String RELATIONSHIP_END_NODE_LABEL = "_endNodeID";
     public static String PROPERTY_FIELD_LABEL = "_property";
+    public static String BLOB_FIELD_LABEL = "_blob";
 
     private class NodeHitCollector extends HitCollector {
 
@@ -143,7 +145,7 @@ public class NeoSearch {
     private Field.TermVector fieldTermVectorFlag = Field.TermVector.NO;
 
     public NeoSearch(GraphDatabaseService neo) throws IOException {
-        this(neo, "content", "OR");
+        this(neo, BLOB_FIELD_LABEL, "OR");
     }
 
     public NeoSearch(GraphDatabaseService neo, String defaultField, String defaultOperator) throws IOException {
@@ -298,9 +300,16 @@ public class NeoSearch {
     private void addProperties(Document document, PropertyContainer propertyContainer) {
         final Transaction tx = neo.beginTx();
         try {
+            StringBuilder blob = new StringBuilder();
             for (String key : propertyContainer.getPropertyKeys()) {
                 document.add(new Field(PROPERTY_FIELD_LABEL, key, Field.Store.NO, Field.Index.NOT_ANALYZED_NO_NORMS, Field.TermVector.NO));
                 addValue(document, key, propertyContainer.getProperty(key));
+                blob.append(propertyContainer.getProperty(key).toString());
+                blob.append(" ");
+            }
+            String blobValue = blob.toString().trim();
+            if (blobValue.length() > 0) {
+                document.add(new Field(BLOB_FIELD_LABEL, blobValue, fieldStoreFlag, Field.Index.ANALYZED, fieldTermVectorFlag));
             }
             tx.success();
         } finally {

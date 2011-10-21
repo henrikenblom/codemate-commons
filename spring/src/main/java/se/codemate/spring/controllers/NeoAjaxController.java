@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +37,7 @@ public class NeoAjaxController {
     private NeoSearch neoSearch;
 
     private NeoUtils neoUtils;
+    private NeoGroovy neoGroovy;
 
     private XStreamView xstreamView;
 
@@ -43,6 +45,7 @@ public class NeoAjaxController {
     public void initialize() {
 
         neoUtils = new NeoUtils(neo);
+        neoGroovy = new NeoGroovy(neo, neoSearch);
 
         XStream xstream = new XStream(new JettisonMappedXmlDriver());
         xstream.setMode(XStream.NO_REFERENCES);
@@ -342,6 +345,58 @@ public class NeoAjaxController {
         return mav;
 
     }
+
+    @RequestMapping(value = {"/neo/ajax/search.do"})
+    public ModelAndView search(@RequestParam("query") String query, @RequestParam(value = "type", required = false) String type) throws IOException, ParseException {
+        ModelAndView mav = new ModelAndView(xstreamView);
+        if ("relationship".equalsIgnoreCase(type)) {
+            mav.addObject(XStreamView.XSTREAM_ROOT, neoSearch.getRelationships(query));
+        } else if ("node".equalsIgnoreCase(type)) {
+            mav.addObject(XStreamView.XSTREAM_ROOT, neoSearch.getNodes(query));
+        } else {
+            mav.addObject(XStreamView.XSTREAM_ROOT, neoSearch.getPropertyContainers(query));
+        }
+        return mav;
+    }
+
+    @RequestMapping(value = {"/neo/ajax/report-search.do"})
+    public ModelAndView resportSearch(@RequestParam("query") String query) throws IOException, ParseException {
+        ModelAndView mav = new ModelAndView(xstreamView);
+        mav.addObject(XStreamView.XSTREAM_ROOT, getPropertyContainers(query));
+        return mav;
+    }
+
+    private List<PropertyContainer> getPropertyContainers(String query) throws IOException, ParseException {
+
+        query = query.trim();
+
+        boolean getStartNodes = false;
+        if (query.startsWith("<") && query.endsWith(">")) {
+            getStartNodes = true;
+            query = query.substring(1, query.length() - 1).trim();
+        }
+
+        boolean groovy = false;
+        if (query.startsWith("GROOVY {") && query.endsWith("}")) {
+            groovy = true;
+            query = query.substring(8, query.length() - 1).trim();
+        }
+
+        List<PropertyContainer> propertyContainers = new LinkedList<PropertyContainer>();
+
+        for (PropertyContainer propertyContainer : groovy ? neoGroovy.evaluate(query) : neoSearch.getPropertyContainers(query)) {
+            if (Relationship.class.isInstance(propertyContainer)) {
+                Relationship relationship = (Relationship) propertyContainer;
+                propertyContainers.add(getStartNodes ? relationship.getStartNode() : relationship.getEndNode());
+            } else {
+                propertyContainers.add(propertyContainer);
+            }
+        }
+
+        return propertyContainers;
+
+    }
+
 /*
     private String extractKey(String name) {
         if (name.indexOf(':') == -1) {
