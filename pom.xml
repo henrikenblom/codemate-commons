@@ -48,7 +48,7 @@
         <jasperreports.version>4.1.2</jasperreports.version>
         <ireport.version>4.1.2</ireport.version>
         <itext.version>2.1.7</itext.version>
-        <httpclient.version>4.0-beta2</httpclient.version>
+        <httpclient.version>4.1</httpclient.version>
         <commons-io.version>1.4</commons-io.version>
         <commons-fileupload.version>1.2</commons-fileupload.version>
     </properties>
